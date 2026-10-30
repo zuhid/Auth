@@ -40,6 +40,19 @@ generate_rsa_keys() {
   openssl rsa -in "$output_dir/private.key" -pubout -out "$output_dir/public.key"
 }
 
+update_dotnet_packages() {
+  find . -name "*.csproj" | sort | while read csproj; do
+    echo "Processing project: $csproj"
+    dotnet list "$csproj" package --outdated | grep -E '>' | awk '{print $2, $4}' |
+    while read name version; do
+      echo "Updating package: $name to project: $csproj"
+      dotnet add "$csproj" package "$name"
+    done
+  done
+  # dotnet list package --outdated
+  dotnet tool update --all # Update all tools
+}
+
 
 ################################################## execute ##################################################
 clear
@@ -47,4 +60,4 @@ clear
 # docker_install_mailhog
 # solution_initilize
 # generate_rsa_keys Auth
-
+update_dotnet_packages
