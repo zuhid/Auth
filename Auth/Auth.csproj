@@ -1,9 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <AssemblyName>Zuhid.Auth</AssemblyName>
+    <RootNamespace>Zuhid.Auth</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>5cff3a70-1ba0-4ba4-8719-482cde70cb1b</UserSecretsId> <!-- code ~/.microsoft/usersecrets/5cff3a70-1ba0-4ba4-8719-482cde70cb1b/secrets.json -->
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Zuhid.Auth.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Dataload\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Keys\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
