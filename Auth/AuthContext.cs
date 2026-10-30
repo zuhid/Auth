@@ -11,7 +11,7 @@ public class AuthContext(DbContextOptions<AuthContext> options) : IdentityDbCont
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        const string schema = "identity";
+        const string schema = "auth";
         builder.ToSnakeCase();
         builder.Entity<User>(entity => entity.ToTable("users", schema));
         builder.Entity<Role>(entity => entity.ToTable("role", schema));

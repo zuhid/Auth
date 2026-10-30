@@ -53,6 +53,16 @@ update_dotnet_packages() {
   dotnet tool update --all # Update all tools
 }
 
+update_database(){
+  project=$1
+  startup_project=$2
+  rm -rf $project/Migrations # remove migration folder
+  # dotnet build
+  dotnet ef migrations add Initial --project $project --startup-project $startup_project # create initial migration
+  dotnet ef migrations script --project $project --startup-project $startup_project --output $project/Migrations/Script.sql # create script
+  dotnet ef database drop --project $project --startup-project $startup_project --force # drop database
+  dotnet ef database update --project $project --startup-project $startup_project # update database
+}
 
 ################################################## execute ##################################################
 clear
@@ -60,4 +70,6 @@ clear
 # docker_install_mailhog
 # solution_initilize
 # generate_rsa_keys Auth
-update_dotnet_packages
+# update_dotnet_packages
+
+update_database Auth Auth

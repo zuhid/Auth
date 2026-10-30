@@ -1,22 +1,30 @@
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Zuhid.Auth;
 
-// Add services to the container.
+public partial class Program
+{
+  private static void Main(string[] args)
+  {
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+    // Add services to the container.
 
-builder.Services.AddDbContext<TContext>(options => options
-    .UseNpgsql(connectionString)
-    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking) // setting to no tracking to improve performance
-);
+    builder.Services.AddControllers();
 
-var app = builder.Build();
+    builder.Services.AddDbContext<AuthContext>(options => options
+        .UseNpgsql("Server=localhost;Database=auth;User Id=dbuser;Password=P@ssw0rd;TrustServerCertificate=True;")
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking) // setting to no tracking to improve performance
+    );
 
-// Configure the HTTP request pipeline.
+    var app = builder.Build();
 
-app.UseAuthorization();
+    // Configure the HTTP request pipeline.
 
-app.MapControllers();
+    app.UseAuthorization();
 
-app.Run();
+    app.MapControllers();
+
+    app.Run();
+  }
+}
