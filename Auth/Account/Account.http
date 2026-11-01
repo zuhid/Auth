@@ -1,4 +1,6 @@
 @Auth_HostAddress = http://localhost:5101
+@token = <jwt>
+@userId = 00000000-0000-0000-0000-000000000000
 
 POST {{Auth_HostAddress}}/Account/Register
 Content-Type: application/json
@@ -10,5 +12,68 @@ Accept: application/json
   "firstName": "test",
   "lastName": "user",
   "phone": "789-456-1230"
+}
+###
+
+POST {{Auth_HostAddress}}/Account/VerifyEmail
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "test@example.com",
+  "token": "<token from verification email>"
+}
+###
+
+POST {{Auth_HostAddress}}/Account/VerifyPhone
+Authorization: Bearer {{token}}
+Accept: application/json
+###
+
+POST {{Auth_HostAddress}}/Account/ConfirmPhone
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "token": "123456"
+}
+###
+
+GET {{Auth_HostAddress}}/Account/EnableTwoFactor
+Authorization: Bearer {{token}}
+Accept: application/json
+###
+
+POST {{Auth_HostAddress}}/Account/EnableTwoFactor
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "code": "123456"
+}
+###
+
+# Provider: Email | Phone
+POST {{Auth_HostAddress}}/Account/SendTwoFactorToken
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "{{userId}}",
+  "provider": "Email"
+}
+###
+
+# Provider: Authenticator | Email | Phone
+POST {{Auth_HostAddress}}/Account/LoginTwoFactor
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "{{userId}}",
+  "provider": "Email",
+  "code": "123456"
 }
 ###

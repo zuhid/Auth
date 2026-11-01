@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
+using Zuhid.Auth.Account;
 using Zuhid.Auth.Entities;
 using Zuhid.Base;
 
@@ -21,6 +22,7 @@ public partial class Program
             "Repository",
             "ApiClient",
         ]);
+        builder.Services.AddScoped<JwtService>();
         builder.AddPostgres<AuthContext>(appSetting.ConnectionStrings.Auth);
 
         var app = builder.BuildServices(appSetting);

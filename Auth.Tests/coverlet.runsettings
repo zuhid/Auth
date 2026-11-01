@@ -5,7 +5,7 @@
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
           <Include>[Zuhid.Auth]*</Include>
-					<Exclude>[Zuhid.Auth]*Program</Exclude>
+					<Exclude>[Zuhid.Auth]*AuthContext,[Zuhid.Auth]*Migrations.*,[Zuhid.Auth]*Program</Exclude>
         </Configuration>
       </DataCollector>
     </DataCollectors>
