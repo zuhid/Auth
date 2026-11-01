@@ -63,4 +63,4 @@ clear
 # generate_rsa_keys Auth
 # update_dotnet_packages
 
-update_database Auth Auth
+# update_database Auth Auth
