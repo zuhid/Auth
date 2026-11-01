@@ -12,7 +12,7 @@ namespace Zuhid.Auth.Account;
 [ApiController]
 [Route("[controller]")]
 public class AccountController(AccountRepository accountRepository, AccountMapper accountMapper,
-    NotificationApiClient notificationApiClient) : ControllerBase
+    NotificationApiClient notificationApiClient, AppSetting appSetting) : ControllerBase
 {
     [HttpPost("Register")]
     [AllowAnonymous]
@@ -25,7 +25,7 @@ public class AccountController(AccountRepository accountRepository, AccountMappe
             await notificationApiClient.VerifyEmail(new VerifyEmailMessage
             {
                 Email = user.Email!,
-                AppUrl = "Test",
+                AppUrl = appSetting.AppUrl,
                 Token = token                
             });
             // var mailMessage = await accountComposer.VerifyEmailCompose(appSetting.AppUrl, user.Email!, user.FullName, token);
