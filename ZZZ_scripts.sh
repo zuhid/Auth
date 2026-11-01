@@ -24,25 +24,6 @@ rebuild_postgres_server(){
   docker exec -it $postgres_container psql -U $postgres_user -c "create user dbuser with superuser password 'P@ssw0rd';"
 }
 
-# This script updates all outdated NuGet packages in .NET projects within the current directory.
-update_dotnet_packages() {
-  find . -name "*.csproj" | sort | while read csproj; do
-    echo "Processing project: $csproj"
-    dotnet list "$csproj" package --outdated | grep -E '>' | awk '{print $2, $4}' |
-    while read name version; do
-      echo "Updating package: $name to project: $csproj"
-      dotnet add "$csproj" package "$name"
-    done
-  done
-  # dotnet list package --outdated
-  dotnet tool update --all # Update all tools
-}
-
-solution_initilize(){
-  project=$1
-  dotnet tool restore
-}
-
 recreate_database(){
   # get the database in lower case
   dbname=${1,,}
@@ -67,17 +48,6 @@ recreate_database(){
   );'
 }
 
-update_database(){
-  project=$1
-  startup_project=$2
-  rm -rf $project/Migrations # remove migration folder
-  # dotnet build
-  dotnet ef migrations add Initial --project $project --startup-project $startup_project # create initial migration
-  dotnet ef migrations script --project $project --startup-project $startup_project --output $project/Migrations/Script.sql # create script
-  dotnet ef database drop --project $project --startup-project $startup_project --force # drop database
-  dotnet ef database update --project $project --startup-project $startup_project # update database
-}
-
 run_test() {
   project=$1
   rm -rf $project/TestResults
@@ -91,12 +61,6 @@ run_test() {
 
   # "/c/Program Files/Mozilla Firefox/firefox.exe" "$PWD/$project/TestResults/CoverageReport/index.html" &
   # "/c/Program Files/Google/Chrome/Application/chrome.exe" "$PWD/$project/TestResults/CoverageReport/index.html" &
-}
-
-generate_rsa_keys() {
-  output_dir="${1:-.}/Keys"
-  openssl genrsa -out "$output_dir/private.key" 2048
-  openssl rsa -in "$output_dir/private.key" -pubout -out "$output_dir/public.key"
 }
 
 publish_docker() {

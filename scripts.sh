@@ -56,6 +56,21 @@ update_database(){
   dotnet ef database update --project $project --startup-project $startup_project # update database
 }
 
+run_test() {
+  project=$1
+  rm -rf $project/TestResults
+  dotnet test $project --settings $project/coverlet.runsettings --collect:"XPlat Code Coverage"
+  dotnet reportgenerator -reports:"$project/TestResults/*/coverage.cobertura.xml" -targetdir:"$project/TestResults/CoverageReport" -reporttypes:Html
+  echo "$PWD/$project/TestResults/CoverageReport/index.html"
+
+  firefox "$PWD/$project/TestResults/CoverageReport/index.html" &
+  # google-chrome "$PWD/$project/TestResults/CoverageReport/index.html" &
+  # /opt/microsoft/msedge/msedge "$PWD/$project/TestResults/CoverageReport/index.html" &
+
+  # "/c/Program Files/Mozilla Firefox/firefox.exe" "$PWD/$project/TestResults/CoverageReport/index.html" &
+  # "/c/Program Files/Google/Chrome/Application/chrome.exe" "$PWD/$project/TestResults/CoverageReport/index.html" &
+}
+
 ################################################## execute ##################################################
 clear
 # docker_install_postgres
@@ -64,3 +79,4 @@ clear
 # update_dotnet_packages
 
 # update_database Auth Auth
+run_test Auth.Tests
