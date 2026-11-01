@@ -19,6 +19,7 @@ public partial class Program
         builder.AddScopedByConvention(Assembly.GetAssembly(typeof(AuthContext))!, [
             "Mapper",
             "Repository",
+            "ApiClient",
         ]);
         builder.AddPostgres<AuthContext>(appSetting.ConnectionStrings.Auth);
 

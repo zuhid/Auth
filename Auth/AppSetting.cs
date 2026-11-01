@@ -7,6 +7,13 @@ public class AppSetting : SettingBase
     public string AppUrl { get; set; } = default!;
     public ConnectionString ConnectionStrings { get; set; } = default!;
     public SsoConfig Sso { get; set; } = default!;
+    public NotificationConfig Notification { get; set; } = default!;
+
+    public class NotificationConfig : IApiClientOptions
+    {
+        public string BaseUrl { get; set; } = default!;
+        public string Authorization { get; set; } = string.Empty;
+    }
 
     public class SsoConfig
     {

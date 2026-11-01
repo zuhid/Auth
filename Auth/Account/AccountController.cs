@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Zuhid.Auth.Notification;
 
 namespace Zuhid.Auth.Account;
 
 [ApiController]
 [Route("[controller]")]
-public class AccountController(AccountRepository accountRepository, AccountMapper accountMapper) : ControllerBase
+public class AccountController(AccountRepository accountRepository, AccountMapper accountMapper,
+    NotificationApiClient notificationApiClient) : ControllerBase
 {
     [HttpPost("Register")]
     [AllowAnonymous]
@@ -20,6 +22,12 @@ public class AccountController(AccountRepository accountRepository, AccountMappe
         if (user != null)
         {
             var token = await accountRepository.GenerateEmailConfirmationTokenAsync(user);
+            await notificationApiClient.VerifyEmail(new VerifyEmailMessage
+            {
+                Email = user.Email!,
+                AppUrl = "Test",
+                Token = token                
+            });
             // var mailMessage = await accountComposer.VerifyEmailCompose(appSetting.AppUrl, user.Email!, user.FullName, token);
             // await emailService.SendEmailAsync(mailMessage);
             Console.WriteLine($"token = {token}");
