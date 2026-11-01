@@ -1,0 +1,14 @@
+@Auth_HostAddress = http://localhost:5101
+
+POST {{Auth_HostAddress}}/Account/Register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "test{{$timestamp}}@example.com",
+  "password": "P@ssw0rd",
+  "firstName": "test",
+  "lastName": "user",
+  "phone": "789-456-1230"
+}
+###

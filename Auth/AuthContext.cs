@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Zuhid.Auth.Base;
+using Zuhid.Base;
 using Zuhid.Auth.Entities;
 
 namespace Zuhid.Auth;

@@ -20,6 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Base\Base\Base.csproj" Condition="'$(Configuration)' == 'Debug'" />
+    <PackageReference Include="Zuhid.Base" Version="0.1.6" Condition="'$(Configuration)' == 'Release'" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Dataload\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
