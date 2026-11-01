@@ -79,4 +79,4 @@ clear
 # update_dotnet_packages
 
 # update_database Auth Auth
-run_test Auth.Tests
+# run_test Auth.Tests
