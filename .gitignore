@@ -1,0 +1,12 @@
+.git
+.nyc_output
+bin
+dist
+Keys
+Migrations
+node_modules
+obj
+playwright-report
+test-results
+TestResults
+tmp
